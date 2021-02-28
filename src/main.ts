@@ -61,7 +61,7 @@ async function executor(
 ) {
   for (const job of jobs) {
     if (job instanceof ReadJob) {
-      const result = await job.readFunc(EReadCommand.DATA);
+      const result = await job.readFunc(job.param);
       console.log(job)
       for (const postCommand of job.postCommands) {
           console.log(postCommand())
@@ -73,7 +73,7 @@ async function executor(
         for (const postCommand of job.postCommands) {
             console.log(postCommand())
         }
-        const result = await job.writeFunc(EWriteCommand.MCU);
+        const result = await job.writeFunc(job.param);
         console.log(result);
     }
   }
