@@ -58,9 +58,9 @@ class OtherOperation {
 }
 
 class OtherOperationAsync {
-  action : () => Promise<string>;
-  constructor(obj: {action : () => Promise<string> }) {
-    this.action = obj.action;
+  func : () => Promise<string>;
+  constructor(obj: {func : () => Promise<string> }) {
+    this.func = obj.func;
   }
 }
 
@@ -108,7 +108,7 @@ async function executor(
     }
     if (job instanceof OtherOperationAsync) {
       console.log(job)
-      const result = await job.action();
+      const result = await job.func();
       console.log(result);
     }
   }
@@ -125,6 +125,6 @@ executor([
     action : voidFunction,
   }),
   new OtherOperationAsync({
-    action : stringPromiseFunction,
+    func : stringPromiseFunction,
   })
 ]);
