@@ -58,8 +58,8 @@ class OtherOperation {
 }
 
 class OtherOperationAsync {
-  action : () => Promise<void>;
-  constructor(obj: {action : () => Promise<void> }) {
+  action : () => Promise<string>;
+  constructor(obj: {action : () => Promise<string> }) {
     this.action = obj.action;
   }
 }
@@ -68,8 +68,10 @@ function voidFunction() {
   console.log("not returning anything")
 }
 
-async function voidPromiseFunction() {
-  console.log("not promising anything")
+async function stringPromiseFunction() {
+  return new Promise((resolve: (value: string) => void) => {
+    resolve("promising a string")
+  })
 }
 
 const OperationalRead = Operational(ReadClass(ReadJob));
@@ -106,7 +108,8 @@ async function executor(
     }
     if (job instanceof OtherOperationAsync) {
       console.log(job)
-      await job.action();
+      const result = await job.action();
+      console.log(result);
     }
   }
 }
@@ -122,6 +125,6 @@ executor([
     action : voidFunction,
   }),
   new OtherOperationAsync({
-    action : voidPromiseFunction,
+    action : stringPromiseFunction,
   })
 ]);
